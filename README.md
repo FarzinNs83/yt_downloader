@@ -29,6 +29,8 @@ A modern terminal YouTube downloader built with Python, `yt-dlp`, and Rich. It c
 
 The `install.bat` and `install.sh` scripts install or update Python dependencies and check FFmpeg. If FFmpeg is missing, they try to fetch the FFmpeg source from GitHub with visible progress. If Git is not installed, they download the source ZIP instead. The official FFmpeg GitHub repository contains source code, so the installer will warn you if no runnable `ffmpeg` binary is found after download.
 
+When FFmpeg is already available, the installer also writes the detected FFmpeg folder to your permanent user PATH. Reopen any already-open terminal to see permanent PATH changes.
+
 The `run.bat` and `run.sh` launchers do not install anything. They only warn you if FFmpeg or Python dependencies are missing.
 
 ## Install

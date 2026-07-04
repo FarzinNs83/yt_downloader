@@ -60,6 +60,7 @@ if not errorlevel 1 (
     for /f "delims=" %%F in ('where ffmpeg 2^>nul') do (
         echo [OK] FFmpeg already available: %%F
         ffmpeg -version 2>nul | findstr /b /c:"ffmpeg version"
+        call :add_to_user_path "%%~dpF"
         call :update_existing_ffmpeg_source
         exit /b 0
     )
@@ -143,6 +144,7 @@ echo [INFO] Adding to user PATH permanently:
 echo        %PATH_TO_ADD%
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$pathToAdd = [IO.Path]::GetFullPath('%PATH_TO_ADD%'); $userPath = [Environment]::GetEnvironmentVariable('Path', 'User'); $parts = @($userPath -split ';' | Where-Object { $_ }); if ($parts -notcontains $pathToAdd) { [Environment]::SetEnvironmentVariable('Path', (($parts + $pathToAdd) -join ';'), 'User'); Write-Host '[OK] Added to user PATH permanently.' } else { Write-Host '[OK] User PATH already contains this folder.' }"
 set "PATH=%PATH%;%PATH_TO_ADD%"
+echo [INFO] If another terminal was already open, reopen it to see the permanent PATH update.
 exit /b 0
 
 :download_ffmpeg_source

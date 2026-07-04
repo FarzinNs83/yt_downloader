@@ -26,8 +26,10 @@ ensure_python_dependencies() {
 ensure_ffmpeg() {
     printf 'Checking FFmpeg...\n'
     if command -v ffmpeg >/dev/null 2>&1; then
-        printf '[OK] FFmpeg already available: %s\n' "$(command -v ffmpeg)"
+        ffmpeg_path="$(command -v ffmpeg)"
+        printf '[OK] FFmpeg already available: %s\n' "$ffmpeg_path"
         ffmpeg -version 2>/dev/null | sed -n '1p'
+        add_to_user_path "$(dirname "$ffmpeg_path")"
         update_existing_ffmpeg_source
         return 0
     fi
@@ -169,6 +171,7 @@ add_to_user_path() {
         } >> "$profile_file"
         printf '[OK] Added to %s for future shells.\n' "$profile_file"
     fi
+    printf '[INFO] If another terminal was already open, reopen it to see the permanent PATH update.\n'
 }
 
 cd "$(dirname "$0")" || exit 1
