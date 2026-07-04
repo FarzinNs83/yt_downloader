@@ -133,6 +133,22 @@ add_to_user_path() {
     fi
 }
 
+ensure_python_dependencies() {
+    printf 'Checking Python dependencies...\n'
+    if [ ! -f "requirements.txt" ]; then
+        printf '[WARN] requirements.txt was not found.\n'
+        return 1
+    fi
+
+    printf '[INFO] Installing/updating dependencies from requirements.txt...\n'
+    if ! "$PYTHON" -m pip install -r requirements.txt; then
+        printf '[WARN] Python dependency installation failed.\n'
+        printf '       Check your Python and pip installation, then run this launcher again.\n'
+        return 1
+    fi
+    printf '[OK] Python dependencies are ready.\n'
+}
+
 cd "$(dirname "$0")" || exit 1
 
 ensure_ffmpeg
@@ -144,6 +160,9 @@ if [ -x ".venv/bin/python" ]; then
 elif command -v python >/dev/null 2>&1; then
     PYTHON="python"
 fi
+
+ensure_python_dependencies || exit 1
+printf '\n'
 
 if [ "$#" -eq 0 ]; then
     "$PYTHON" yt_downloader.py

@@ -29,6 +29,8 @@ A modern terminal YouTube downloader built with Python, `yt-dlp`, and Rich. It c
 
 The `run.bat` and `run.sh` launchers check for `ffmpeg` every time they start. If it is missing, they try to fetch the FFmpeg source from GitHub with visible progress. If Git is not installed, they download the source ZIP instead. The official FFmpeg GitHub repository contains source code, so the launcher will warn you if no runnable `ffmpeg` binary is found after download.
 
+The launchers also run `pip install -r requirements.txt` before starting the app, so Python dependencies are installed or updated automatically.
+
 ## Install
 
 Windows PowerShell:

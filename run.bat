@@ -16,6 +16,17 @@ if exist ".venv\Scripts\python.exe" (
     set "PYTHON=.venv\Scripts\python.exe"
 )
 
+call :ensure_python_dependencies
+if errorlevel 1 (
+    set "EXIT_CODE=1"
+    if "%~1"=="" (
+        echo.
+        pause
+    )
+    exit /b %EXIT_CODE%
+)
+echo.
+
 if "%~1"=="" (
     "%PYTHON%" yt_downloader.py
     set "EXIT_CODE=%ERRORLEVEL%"
@@ -27,6 +38,22 @@ if "%~1"=="" (
 )
 
 exit /b %EXIT_CODE%
+
+:ensure_python_dependencies
+echo Checking Python dependencies...
+if not exist "requirements.txt" (
+    echo [WARN] requirements.txt was not found.
+    exit /b 1
+)
+echo [INFO] Installing/updating dependencies from requirements.txt...
+"%PYTHON%" -m pip install -r requirements.txt
+if errorlevel 1 (
+    echo [WARN] Python dependency installation failed.
+    echo        Check your Python and pip installation, then run this launcher again.
+    exit /b 1
+)
+echo [OK] Python dependencies are ready.
+exit /b 0
 
 :ensure_ffmpeg
 echo Checking FFmpeg...
