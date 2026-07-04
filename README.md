@@ -27,6 +27,8 @@ A modern terminal YouTube downloader built with Python, `yt-dlp`, and Rich. It c
 
 `ffmpeg` is needed for merging video/audio streams and converting audio to MP3 or M4A.
 
+The `run.bat` and `run.sh` launchers check for `ffmpeg` every time they start. If it is missing, they try to fetch the FFmpeg source from GitHub with visible progress. If Git is not installed, they download the source ZIP instead. The official FFmpeg GitHub repository contains source code, so the launcher will warn you if no runnable `ffmpeg` binary is found after download.
+
 ## Install
 
 Windows PowerShell:
